@@ -1,9 +1,6 @@
 package ru.moscow.ayrapetovai.diff;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiFunction;
 
 /**
@@ -56,25 +53,51 @@ public class AdvansedTest2 {
 
     }
 
-    public static <T> void diff(List<String> a, List<String> b,
+    public static <T> void diff(List<T> a, List<T> b,
                                 BiFunction<T, T, Boolean> relevantEqual, BiFunction<T, T, Boolean> fullyEqual)
     {
         System.out.println("base : " + a);
         System.out.println("chng : " + b);
 
-        Set<String> found = new HashSet<>();
-        Set<String> altered = new HashSet<>();
+//        Set<T> found = new HashSet<>();
+//        Set<T> altered = new HashSet<>();
+
+//        for (int i = 0; i < a.size(); i++) {
+//            for (int j = 0; j < b.size(); j++) {
+//                if (relevantEqual.apply((T)a.get(i), (T)b.get(j))) {
+//                    if (fullyEqual.apply((T)a.get(i), (T)b.get(j))) {
+//                        found.add(a.get(i));
+//                    } else {
+//                        found.add(a.get(i));
+//                        altered.add(a.get(i));
+//                    }
+//                }
+//            }
+//        }
 
         for (int i = 0; i < a.size(); i++) {
+            boolean found = false;
             for (int j = 0; j < b.size(); j++) {
-                if (relevantEqual.apply((T)a.get(i), (T)b.get(j))) {
-                    if (fullyEqual.apply((T)a.get(i), (T)b.get(j))) {
-                        found.add(a.get(i));
-                    } else {
-                        found.add(a.get(i));
-                        altered.add(a.get(i));
-                    }
+                if (fullyEqual.apply(a.get(i), b.get(j))) {
+                    found = true;
+                    break;
                 }
+            }
+            if (!found) {
+                System.out.println("remove " + i  + " : " + a.get(i));
+            }
+        }
+
+        for (int i = 0; i < b.size(); i++) {
+            boolean found = false;
+            for (int j = 0; j < a.size(); j++) {
+                if (fullyEqual.apply(b.get(i), a.get(j))) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                System.out.println("insert " + i + " : " + b.get(i));
             }
         }
 
