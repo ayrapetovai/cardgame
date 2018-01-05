@@ -1,8 +1,8 @@
-package ru.moscow.ayrapetovai.diff.anew;
+package ru.moscow.ayrapetovai.diff.algo;
 
-import ru.moscow.ayrapetovai.diff.algo.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class DiffAlgorithm {
@@ -13,7 +13,12 @@ public class DiffAlgorithm {
         for (int i = 1; i < m; i++) {
             for (int j = 1; j < n; j++) {
                 equalityMtrx[i][j] = a[i-1] == b[j-1];
+                if (equalityMtrx[i][j])
+                    System.out.print("v");
+                else
+                    System.out.print("x");
             }
+            System.out.println();
         }
         int[][] distanceMtrx = new int[m][n];
         for (int i = 1; i < m; i++) {
@@ -59,6 +64,8 @@ public class DiffAlgorithm {
             if (instructionMtrx[k][z] > 0) {
                 System.out.print(instructionMtrx[k][z] + " ");
                 if (instructionMtrx[k][z] == 'i') {
+                    List<Integer> copySources = new ArrayList<>();
+                    boolean movementFound = false;
                     for (int i = 0; i < m; i++) {
                         if (i != k && equalityMtrx[i][z]) {
                             int removealIndex = -1;
@@ -71,12 +78,19 @@ public class DiffAlgorithm {
                             if (removealIndex > -1) {
                                 instructionMtrx[k][z] = 'm';
                                 instructionMtrx[i][removealIndex] = '.';
+                                sourceMtrx[k][z] = i - 1;
+                                movementFound = true;
+                                break;
                             } else {
-                                instructionMtrx[k][z] = 'c';
+                                copySources.add(i - 1);
                             }
-                            sourceMtrx[k][z] = i - 1;
-                            break;
                         }
+                    }
+                    if (!movementFound && !copySources.isEmpty()) {
+                        instructionMtrx[k][z] = 'c';
+                        sourceMtrx[k][z] = copySources.get(0); // сделать для всех источников
+                        break;
+
                     }
                 }
             }
@@ -113,7 +127,7 @@ public class DiffAlgorithm {
             System.out.println();
         }
 
-        List<Instruction> instructions = new ArrayList<>();
+        List<Instruction> instructions = new LinkedList<>();
         k = 0;
         z = 0;
         while (k < m && z < n) {

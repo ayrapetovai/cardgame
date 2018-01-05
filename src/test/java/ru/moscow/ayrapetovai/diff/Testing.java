@@ -1,12 +1,11 @@
 package ru.moscow.ayrapetovai.diff;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import ru.moscow.ayrapetovai.diff.algo.Instruction;
 import ru.moscow.ayrapetovai.diff.algo.MergeAlgorithm;
-import ru.moscow.ayrapetovai.diff.anew.DiffAlgorithm;
+import ru.moscow.ayrapetovai.diff.algo.DiffAlgorithm;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,9 +25,10 @@ public class Testing {
             "51234, 125634",
             "123, 321",
             "51235123512341235, 123612152512352135",
-            "_A_B_C_D, A_B_C_D_",
+            "_A_B_C_D, A_BC_D_",
             "ABCABBA, CBABAC",
-            "12345, 25143"
+            "12345, 25143",
+            "12123, 11322"
     })
     public void test(String as, String bs) {
         char[] a = as.toCharArray();
