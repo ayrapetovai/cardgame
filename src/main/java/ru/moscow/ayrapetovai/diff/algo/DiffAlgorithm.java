@@ -2,7 +2,6 @@ package ru.moscow.ayrapetovai.diff.algo;
 
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class DiffAlgorithm {
@@ -127,24 +126,22 @@ public class DiffAlgorithm {
             System.out.println();
         }
 
-        List<Instruction> instructions = new LinkedList<>();
+        List<Instruction> instructions = new ArrayList<>();
         k = 0;
         z = 0;
         while (k < m && z < n) {
             if (instructionMtrx[k][z] > 0) {
                 System.out.print(instructionMtrx[k][z] + " ");
-                Instruction ins = null;
                 switch (instructionMtrx[k][z]) {
                     case 'r':
-                        ins = new Remove(k-1); break;
+                        instructions.add(new Remove(k-1)); break;
                     case 'i':
-                        ins = new Insert(k, z-1, b[z - 1]); break;
+                        instructions.add(new Insert(k, z-1, b[z - 1])); break;
                     case 'c':
-                        ins = new Copy(sourceMtrx[k][z], k); break;
+                        instructions.add(new Copy(sourceMtrx[k][z], k)); break;
                     case 'm':
-                        ins = new Move(sourceMtrx[k][z], k); break;
+                        instructions.add(new Move(sourceMtrx[k][z], k)); break;
                 }
-                instructions.add(ins);
             }
             if (z + 1 < n && pathMtrx[k][z + 1]) {
                 z++;
